@@ -1,0 +1,18 @@
+{
+  "name": "qr",
+  "version": "0.1.0",
+  "description": "A 3D (WebGL based) WebApplication for generating QR Codes in varios enviroments suitable for testing QR Code Readers.",
+  "main": "server.js",
+  "scripts": {
+    "start": "coffee server.coffee",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Christian Moritz",
+  "license": "MIT",
+  "devDependencies": {
+    "coffee-script": "^1.9.3",
+    "connect-assets": "^4.7.1",
+    "express": "^4.13.0",
+    "jade": "^1.11.0"
+  }
+}

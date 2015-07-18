@@ -1,0 +1,327 @@
+doctype html
+html
+  head
+    title QR 3D
+    meta(name='viewport', content='width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0')
+    link(rel='stylesheet', href='static/css/bootstrap.min.css')
+    link(rel='stylesheet', href='static/css/bootstrap-theme.min.css')
+  body
+    .navbar.navbar-inverse(role='navigation', style='margin-bottom: 0px; border-radius: 0px;')
+      .container-fluid
+        .navbar-header
+          a.navbar-brand(href='/qr3d/') QR 3D
+        .navbar-form.navbar-left
+          a#exportPng.btn.btn-default Export as .png
+        .nav.navbar-nav.navbar-right
+          li#showEdit: a(href='#') Show edit scene configuration menu
+
+    #WebGLContainer(style="position: fixed; top: 52px; bottom: 0px; left: 0px; right: 0px;")
+    #editMenu(style="position: fixed; top: 52px; bottom: 0px; width: 500px; right: 0px; display: none; overflow: auto;")
+      .panel.panel-default(style='margin-bottom: 0px;')
+        .panel-heading
+          button#closeEdit.close(style='margin-top: -3px;'): span &times;
+          h3.panel-title Edit scene configuration
+        .panel-body
+          ul#editTabs.nav.nav-tabs(role='tablist', style='margin-bottom: 15px;')
+            li.active: a(href='#tabQRdata', data-toggle='tab') QR data
+            li: a(href='#tabQRmaterial', data-toggle='tab') QR material
+            li: a(href='#tabLights', data-toggle='tab') Lights
+            li: a(href='#tabObstacle', data-toggle='tab') Obstacle
+          .tab-content
+            #tabQRdata.tab-pane.fade.in.active
+              .form-horizontal
+                .form-group
+                  label.col-sm-4.control-label(for='editQrType') Type (size):
+                  .col-sm-8
+                    select#editQrType.form-control
+                      option(value='0') smallest size possible
+                      option(value='1') 1 (21x21)
+                      option(value='2') 2 (25x25)
+                      option(value='3') 3 (29x29)
+                      option(value='4') 4 (33x33)
+                      option(value='5') 5 (37x37)
+                      option(value='6') 6 (41x41)
+                      option(value='7') 7 (45x45)
+                      option(value='8') 8 (49x49)
+                      option(value='9') 9 (53x53)
+                      option(value='10') 10 (57x57)
+                      option(value='11') 11 (61x61)
+                      option(value='12') 12 (65x65)
+                      option(value='13') 13 (69x69)
+                      option(value='14') 14 (73x73)
+                      option(value='15') 15 (77x77)
+                      option(value='16') 16 (81x81)
+                      option(value='17') 17 (85x85)
+                      option(value='18') 18 (89x89)
+                      option(value='19') 19 (93x73)
+                      option(value='20') 20 (97x77)
+                      option(value='21') 21 (101x81)
+                      option(value='22') 22 (105x105)
+                      option(value='23') 23 (109x109)
+                      option(value='24') 24 (113x113)
+                      option(value='25') 25 (117x117)
+                      option(value='26') 26 (121x121)
+                      option(value='27') 27 (125x125)
+                      option(value='28') 28 (129x129)
+                      option(value='29') 29 (133x133)
+                      option(value='30') 30 (137x137)
+                      option(value='31') 31 (141x141)
+                      option(value='32') 32 (145x145)
+                      option(value='33') 33 (149x149)
+                      option(value='34') 34 (153x153)
+                      option(value='35') 35 (157x157)
+                      option(value='36') 36 (161x161)
+                      option(value='37') 37 (165x165)
+                      option(value='38') 38 (169x169)
+                      option(value='39') 39 (173x173)
+                      option(value='40') 40 (177x177)
+                .form-group
+                  label.col-sm-4.control-label(for='editQrEcl') Error correction::
+                  .col-sm-8
+                    select#editQrEcl.form-control
+                      option(value='0') L (7%)
+                      option(value='1') M (15%)
+                      option(value='2') Q (25%)
+                      option(value='3') H (30%)
+                .form-group
+                  label.col-sm-4.control-label(for='editDarkColor') dark color:
+                  .col-sm-8
+                    input#editDarkColor.form-control(type='color', value='#000000')
+                .form-group
+                  label.col-sm-4.control-label(for='editLightColor') light color:
+                  .col-sm-8
+                    input#editLightColor.form-control(type='color', value='#FFFFFF')
+                .form-group
+                  label.col-sm-4.control-label(for='editBackColor') background color:
+                  .col-sm-8
+                    input#editBackColor.form-control(type='color', value='#888888')
+                .form-group
+                  label.col-sm-4.control-label(for='editQrText') Text:
+                  .col-sm-8
+                    textarea#editQrText.form-control(rows=4, style='resize: vertical; min-height: 100px;')
+                .form-group
+                  .col-sm-offset-4.col-sm-8
+                    button#changeQRcode.btn.btn-primary Change QR Code
+            #tabQRmaterial.tab-pane.fade
+              .form-horizontal
+                .form-group
+                  label.col-sm-4.control-label(for='editMaterial') material:
+                  .col-sm-8
+                    select#editMaterial.form-control
+                      option(value='0') MeshPhongMaterial (shiny surface)
+                      option(value='1') MeshLambertMaterial (non-shiny surface)
+                      option(value='2') MeshBasicMaterial (simple shaded)
+                .form-group
+                  label.col-sm-4.control-label(for='editDiffuseColor') Diffuse color:
+                  .col-sm-8
+                    input#editDiffuseColor.form-control(type='color', value='#dddddd')
+                .form-group
+                  label.col-sm-4.control-label(for='editEmissiveColor') Emissive color:
+                  .col-sm-8
+                    input#editEmissiveColor.form-control(type='color', value='#000000')
+                .form-group
+                  label.col-sm-4.control-label(for='editSpecularColor') Specular color:
+                  .col-sm-8
+                    input#editSpecularColor.form-control(type='color', value='#888888')
+                .form-group
+                  label.col-sm-4.control-label(for='editShininess') Shininess:
+                  .col-sm-8
+                    input#editShininess.form-control(type='number', value='50', step=5)
+            #tabLights.tab-pane.fade
+              .form-horizontal
+                .form-group
+                  label.col-sm-4.control-label(for='editAmbientLightColor') Ambient light:
+                  .col-sm-8
+                    input#editAmbientLightColor.form-control(type='color', value='#888888')
+              .h4
+                input#editEnableDirLight(type='checkbox', checked, style='margin-right: 3px;')
+                u Directional light:
+              .form-horizontal
+                .form-group
+                  label.col-sm-4.control-label(for='editDirLightColor') Color:
+                  .col-sm-8
+                    input#editDirLightColor.form-control(type='color', value='#444444')
+                .form-group
+                  label.col-sm-4.control-label(for='editDirLightIntensity') Intensity:
+                  .col-sm-8
+                    input#editDirLightIntensity.form-control(type='number', value=0.1, step=0.05)
+                .form-group
+                  label.col-sm-4.control-label(for='editDirLightX') Direction:
+                  .col-sm-8
+                    .input-group.input-group-sm
+                      span.input-group-addon x:
+                      input#editDirLightX.form-control(type='number', value='0', step=0.1)
+                      span.input-group-addon y:
+                      input#editDirLightY.form-control(type='number', value='0', step=0.1)
+                      span.input-group-addon z:
+                      input#editDirLightZ.form-control(type='number', value='1', step=0.1)
+                      span.input-group-btn
+                        button#editDirLightVector.btn.btn-default go
+              .h4
+                input#editEnableCamLight(type='checkbox', style='margin-right: 3px;')
+                u Camera Point light (camera attached):
+              .form-horizontal
+                .form-group
+                  label.col-sm-4.control-label(for='editCameraLightColor') Color:
+                  .col-sm-8
+                    input#editCameraLightColor.form-control(type='color', value='#888888')
+                .form-group
+                  label.col-sm-4.control-label(for='editCameraLightIntensity') Intensity:
+                  .col-sm-8
+                    input#editCameraLightIntensity.form-control(type='number', value=0.7, step=0.1)
+                .form-group
+                  label.col-sm-4.control-label(for='editCameraLightDistance') Distance:
+                  .col-sm-8
+                    input#editCameraLightDistance.form-control(type='number', value=700, step=20, min=600)
+              .h4
+                input#editEnablePointLight(type='checkbox', style='margin-right: 3px;')
+                u static Point light (fixed position):
+              .form-horizontal
+                .form-group
+                  label.col-sm-4.control-label(for='editPointLightColor') Color:
+                  .col-sm-8
+                    input#editPointLightColor.form-control(type='color', value='#888888')
+                .form-group
+                  label.col-sm-4.control-label(for='editPointLightIntensity') Intensity:
+                  .col-sm-8
+                    input#editPointLightIntensity.form-control(type='number', value=0.3, step=0.1)
+                .form-group
+                  label.col-sm-4.control-label(for='editPointLightDistance') Distance:
+                  .col-sm-8
+                    input#editPointLightDistance.form-control(type='number', value=700, step=20)
+                .form-group
+                  label.col-sm-4.control-label(for='editPointLightX') Position:
+                  .col-sm-8
+                    .input-group.input-group-sm
+                      span.input-group-addon x:
+                      input#editPointLightX.form-control(type='number', value='100', step=20)
+                      span.input-group-addon y:
+                      input#editPointLightY.form-control(type='number', value='100', step=20)
+                      span.input-group-addon z:
+                      input#editPointLightZ.form-control(type='number', value='500', step=20)
+                      span.input-group-btn
+                        button#editPointLightPosition.btn.btn-default go
+            #tabObstacle.tab-pane.fade
+              .form-horizontal
+                .form-group
+                  label.col-sm-4.control-label(for='editObstacleWidth') Width:
+                  .col-sm-8
+                    input#editObstacleWidth.form-control(type='number', value=50)
+                .form-group
+                  label.col-sm-4.control-label(for='editObstacleHeight') Height:
+                  .col-sm-8
+                    input#editObstacleHeight.form-control(type='number', value=50)
+                .form-group
+                  label.col-sm-4.control-label(for='editObstacleColor') Color:
+                  .col-sm-8
+                    input#editObstacleColor.form-control(type='color', value='#FF0000')
+                .form-group
+                  label.col-sm-4.control-label(for='editObstacleX') Position:
+                  .col-sm-8
+                    .input-group.input-group-sm
+                      span.input-group-addon x:
+                      input#editObstacleX.form-control(type='number', value='30')
+                      span.input-group-addon y:
+                      input#editObstacleY.form-control(type='number', value='30')
+                      span.input-group-addon z:
+                      input#editObstacleZ.form-control(type='number', value='100')
+                .form-group
+                  .col-sm-offset-4.col-sm-8
+                    button#addObstacle.btn.btn-primary Add obstacle
+        
+    #qrModal.modal(tabindex='-1', role='dialog')
+      .modal-dialog.modal-lg
+        .modal-content
+          .modal-header
+            h4.modal-title Create QR Code
+          .modal-body
+            .form-horizontal
+              .form-group
+                label.col-sm-2.control-label(for='qrType') Type (size):
+                .col-sm-10
+                  select#qrType.form-control
+                    option(value='0') smallest size possible
+                    option(value='1') 1 (21x21)
+                    option(value='2') 2 (25x25)
+                    option(value='3') 3 (29x29)
+                    option(value='4') 4 (33x33)
+                    option(value='5') 5 (37x37)
+                    option(value='6') 6 (41x41)
+                    option(value='7') 7 (45x45)
+                    option(value='8') 8 (49x49)
+                    option(value='9') 9 (53x53)
+                    option(value='10') 10 (57x57)
+                    option(value='11') 11 (61x61)
+                    option(value='12') 12 (65x65)
+                    option(value='13') 13 (69x69)
+                    option(value='14') 14 (73x73)
+                    option(value='15') 15 (77x77)
+                    option(value='16') 16 (81x81)
+                    option(value='17') 17 (85x85)
+                    option(value='18') 18 (89x89)
+                    option(value='19') 19 (93x73)
+                    option(value='20') 20 (97x77)
+                    option(value='21') 21 (101x81)
+                    option(value='22') 22 (105x105)
+                    option(value='23') 23 (109x109)
+                    option(value='24') 24 (113x113)
+                    option(value='25') 25 (117x117)
+                    option(value='26') 26 (121x121)
+                    option(value='27') 27 (125x125)
+                    option(value='28') 28 (129x129)
+                    option(value='29') 29 (133x133)
+                    option(value='30') 30 (137x137)
+                    option(value='31') 31 (141x141)
+                    option(value='32') 32 (145x145)
+                    option(value='33') 33 (149x149)
+                    option(value='34') 34 (153x153)
+                    option(value='35') 35 (157x157)
+                    option(value='36') 36 (161x161)
+                    option(value='37') 37 (165x165)
+                    option(value='38') 38 (169x169)
+                    option(value='39') 39 (173x173)
+                    option(value='40') 40 (177x177)
+              .form-group
+                label.col-sm-2.control-label(for='qrEcl') Error correction::
+                .col-sm-10
+                  select#qrEcl.form-control
+                    option(value='0') L (7%)
+                    option(value='1') M (15%)
+                    option(value='2') Q (25%)
+                    option(value='3') H (30%)
+              .form-group
+                label.col-sm-2.control-label(for='qrDarkColor') dark color:
+                .col-sm-10
+                  input#qrDarkColor.form-control(type='color', value='#000000')
+              .form-group
+                label.col-sm-2.control-label(for='qrLightColor') light color:
+                .col-sm-10
+                  input#qrLightColor.form-control(type='color', value='#FFFFFF')
+              .form-group
+                label.col-sm-2.control-label(for='qrBackColor') background color:
+                .col-sm-10
+                  input#qrBackColor.form-control(type='color', value='#888888')
+              .form-group
+                label.col-sm-2.control-label(for='qrAntialias') antialias:
+                .col-sm-10
+                  select#qrAntialias.form-control
+                    option(value='0') On
+                    option(value='1') Off
+              .form-group
+                label.col-sm-2.control-label(for='qrText') Text:
+                .col-sm-10
+                  textarea#qrText.form-control(rows=4, style='resize: vertical; min-height: 100px;') Hello World!
+                
+          .modal-footer.form-inline
+            button#generateQR.btn.btn-primary Create QR Code  
+    script(src='static/js/jquery.min.js', type='text/javascript')
+    script(src='static/js/bootstrap.min.js', type='text/javascript')
+    script(src='static/js/three.min.js', type='text/javascript')
+    script(src='static/js/stats.min.js', type='text/javascript')
+
+    if dev
+      script(src='static/js/OrbitalControls.js', type='text/javascript')
+      script(src='static/js/qrlib.js', type='text/javascript')
+      != js('Main', {'type': 'text/javascript'})
+    else
+      script(src='static/js/qr3d.min.js', type='text/javascript')
